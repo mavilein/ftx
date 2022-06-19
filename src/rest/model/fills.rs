@@ -6,7 +6,7 @@ use serde::Serialize;
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct GetFills {
-    pub limit: u32,
+    pub limit: usize,
     pub market: Option<String>,
     #[serde(
         skip_serializing_if = "Option::is_none",
