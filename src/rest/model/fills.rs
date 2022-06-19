@@ -6,8 +6,8 @@ use serde::Serialize;
 
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct GetFills {
-    pub market: String,
     pub limit: u32,
+    pub market: Option<String>,
     #[serde(
         skip_serializing_if = "Option::is_none",
         serialize_with = "super::serialize_as_timestamp"
@@ -23,12 +23,17 @@ pub struct GetFills {
 }
 
 impl GetFills {
-    pub fn new(market_name: &str) -> Self {
+    pub fn new() -> Self {
         Self {
-            market: market_name.to_owned(),
             limit: 20, // this is equal to that is used by the API if not explicitly provided.
             ..Self::default()
         }
+    }
+
+    pub fn for_market(market: &str) -> Self {
+        let mut req = Self::new();
+        req.market = Some(market.to_owned());
+        req
     }
 }
 

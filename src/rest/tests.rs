@@ -159,7 +159,7 @@ async fn get_historical_prices() {
 async fn get_fills() {
     init_api()
         .await
-        .request(GetFills::new("RUNE/USD"))
+        .request(GetFills::for_market("RUNE/USD"))
         .await
         .unwrap();
 }
