@@ -169,6 +169,11 @@ impl Rest {
             Ok(SuccessResponse { result, .. }) => Ok(result),
 
             Err(e) => {
+                let body_text = String::from_utf8(body.to_vec()).unwrap();
+                let col = e.column();
+                println!("location: {:?}",  &body_text[col-5..col+5]);
+                println!("wider part: {:?}", &body_text[col-100..col+100]);
+
                 if let Ok(ErrorResponse { error, .. }) = from_reader(&*body) {
                     Err(Error::Api(error))
                 } else {
