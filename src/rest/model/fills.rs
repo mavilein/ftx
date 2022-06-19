@@ -5,9 +5,9 @@ use http::Method;
 use serde::Serialize;
 
 #[derive(Debug, Clone, Serialize, Default)]
-#[serde(rename_all = "camelCase")]
 pub struct GetFills {
-    pub market_name: String,
+    pub market: String,
+    pub limit: u32,
     #[serde(
         skip_serializing_if = "Option::is_none",
         serialize_with = "super::serialize_as_timestamp"
@@ -25,7 +25,8 @@ pub struct GetFills {
 impl GetFills {
     pub fn new(market_name: &str) -> Self {
         Self {
-            market_name: market_name.into(),
+            market: market_name.to_owned(),
+            limit: 20, // this is equal to that is used by the API if not explicitly provided.
             ..Self::default()
         }
     }
